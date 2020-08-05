@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['namespace' => 'API', 'as' => 'api.'], function () {
+	Route::group(['namespace' => 'Auth', 'as' => 'auth.'], function () {
+		Route::post('login', 'AuthController@login')->name('login');
+		Route::post('register', 'AuthController@register')->name('register');
+		Route::post('logout', 'AuthController@logout')->middleware('auth:sanctum')->name('logout');
+	});
+
+	Route::group(['middleware' => 'auth:sanctum'], function () {
+		Route::get('user', function (Request $request) {
+			return $request->user();
+		});
+	});
 });
