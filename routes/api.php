@@ -28,5 +28,6 @@ Route::group(['namespace' => 'API', 'as' => 'api.'], function () {
 
 		Route::get('timeline', 'TimelineController@index')->name('timeline.index');
 		Route::apiResource('posts', 'PostController');
+		Route::apiResource('comments', 'CommentController')->except(['show']);
 	});
 });

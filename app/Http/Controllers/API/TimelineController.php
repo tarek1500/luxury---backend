@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostCollection;
-use App\Post;
 use Illuminate\Http\Request;
 
 class TimelineController extends Controller
@@ -19,6 +17,6 @@ class TimelineController extends Controller
 	 */
 	public function index(Request $request)
 	{
-		return new PostCollection($request->user()->posts()->orderBy('created_at', 'desc')->with('user')->paginate(10));
+		return new PostCollection($request->user()->posts()->orderBy('created_at', 'desc')->with(['user', 'comments.user'])->paginate(10));
 	}
 }

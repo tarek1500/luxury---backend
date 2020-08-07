@@ -18,7 +18,7 @@ class PostController extends Controller
 	 */
 	public function index()
 	{
-		return new PostCollection(Post::with('user')->orderBy('created_at', 'desc')->paginate(10));
+		return new PostCollection(Post::with(['user', 'comments.user'])->orderBy('created_at', 'desc')->paginate(10));
 	}
 
 	/**
@@ -46,7 +46,7 @@ class PostController extends Controller
 	 */
 	public function show(Post $post)
 	{
-		return response(new PostResource($post->load('user')));
+		return response(new PostResource($post->load(['user', 'comments.user'])));
 	}
 
 	/**

@@ -16,6 +16,18 @@ class Post extends Model
 	];
 
 	/**
+	 * Perform any actions required before the model boots.
+	 *
+	 * @return void
+	 */
+	protected static function booting()
+	{
+		static::deleting(function ($post) {
+			$post->comments()->delete();
+		});
+	}
+
+	/**
 	 * Many-to-one relation to the user.
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
