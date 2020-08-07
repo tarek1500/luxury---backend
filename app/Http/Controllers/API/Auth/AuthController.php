@@ -19,7 +19,7 @@ class AuthController extends Controller
 	 */
 	public function login(AuthRequest $request)
 	{
-		$data = $request->only('email', 'password', 'device');
+		$data = $request->only(['email', 'password', 'device']);
 		$device = $data['device'];
 		$token = null;
 
@@ -43,7 +43,7 @@ class AuthController extends Controller
 	 */
 	public function register(AuthRequest $request)
 	{
-		$data = $request->only('name', 'email', 'password', 'country', 'device');
+		$data = $request->only(['name', 'email', 'password', 'country', 'device']);
 		$device = $data['device'];
 		$data = [
 			'name' => $data['name'],

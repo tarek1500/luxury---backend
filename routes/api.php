@@ -25,5 +25,8 @@ Route::group(['namespace' => 'API', 'as' => 'api.'], function () {
 		Route::get('user', function (Request $request) {
 			return $request->user();
 		});
+
+		Route::get('timeline', 'TimelineController@index')->name('timeline.index');
+		Route::apiResource('posts', 'PostController');
 	});
 });
