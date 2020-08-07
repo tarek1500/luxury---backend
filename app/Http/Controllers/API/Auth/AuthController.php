@@ -28,10 +28,27 @@ class AuthController extends Controller
 			'password' => $data['password']
 		];
 
-		if (Auth::attempt($credentials))
-			$token = $this->createToken(Auth::user(), $device);
+		if (Auth::attempt($credentials)) {
+			$user = Auth::user();
+			$token = $this->createToken($user, $device);
 
-		return $this->sendResponse($token);
+			return response([
+				'id' => $user->id,
+				'name' => $user->name,
+				'country' => $user->country,
+				'avatar' => $request->getSchemeAndHttpHost() . '/uploads/' . $user->avatar,
+				'token' => $token->plainTextToken
+			]);
+		}
+
+		return response([
+			'message' => 'The given data was invalid.',
+			'errors' => [
+				'email' => [
+					'The provided credentials are incorrect.'
+				]
+			]
+		], 422);
 	}
 
 	/**
@@ -55,7 +72,10 @@ class AuthController extends Controller
 		$user = User::create($data);
 		$token = $this->createToken($user, $device);
 
-		return $this->sendResponse($token, 201);
+		return response([
+			'id' => $user->id,
+			'token' => $token->plainTextToken
+		], 201);
 	}
 
 	/**
@@ -86,32 +106,5 @@ class AuthController extends Controller
 		$user->tokens()->where('name', $device)->delete();
 
 		return $user->createToken($device);
-	}
-
-	/**
-	 * Generate auth response.
-	 *
-	 * @param \Laravel\Sanctum\NewAccessToken|null $token
-	 * @param int $status
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	private function sendResponse($token, int $status = 200)
-	{
-		if ($token)
-		{
-			return response([
-				'token' => $token->plainTextToken
-			], $status);
-		}
-
-		return response([
-			'message' => 'The given data was invalid.',
-			'errors' => [
-				'email' => [
-					'The provided credentials are incorrect.'
-				]
-			]
-		], 422);
 	}
 }

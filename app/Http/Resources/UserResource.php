@@ -19,7 +19,8 @@ class UserResource extends JsonResource
 			'id' => $this->id,
 			'name' => $this->name,
 			'email' => $this->email,
-			'country' => $this->country
+			'country' => $this->country,
+			'avatar' => $request->getSchemeAndHttpHost() . '/uploads/' . $this->avatar
 		];
 	}
 }

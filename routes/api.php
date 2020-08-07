@@ -22,9 +22,8 @@ Route::group(['namespace' => 'API', 'as' => 'api.'], function () {
 	});
 
 	Route::group(['middleware' => 'auth:sanctum'], function () {
-		Route::get('user', function (Request $request) {
-			return $request->user();
-		});
+		Route::get('profile', 'ProfileController@index')->name('profile.index');
+		Route::put('profile', 'ProfileController@update')->name('profile.update');
 
 		Route::get('timeline', 'TimelineController@index')->name('timeline.index');
 		Route::apiResource('posts', 'PostController');
