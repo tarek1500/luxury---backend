@@ -36,7 +36,7 @@ class AuthController extends Controller
 				'id' => $user->id,
 				'name' => $user->name,
 				'country' => $user->country,
-				'avatar' => $request->getSchemeAndHttpHost() . '/uploads/' . $user->avatar,
+				'avatar' => $request->getSchemeAndHttpHost() . '/uploads/' . ($user->avatar ?? 'default.png'),
 				'token' => $token->plainTextToken
 			]);
 		}

@@ -15,6 +15,9 @@ class UploadController extends Controller
 	 */
 	public function index(string $path)
 	{
+		if (!Storage::exists($path))
+			$path = 'imgs/avatars/default.png';
+
 		return response(Storage::get($path))->header('Content-Type', Storage::mimeType($path));
 	}
 }

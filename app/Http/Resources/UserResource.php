@@ -20,7 +20,7 @@ class UserResource extends JsonResource
 			'name' => $this->name,
 			'email' => $this->email,
 			'country' => $this->country,
-			'avatar' => $request->getSchemeAndHttpHost() . '/uploads/' . $this->avatar
+			'avatar' => $request->getSchemeAndHttpHost() . '/uploads/' . ($this->avatar ?? 'default.png')
 		];
 	}
 }

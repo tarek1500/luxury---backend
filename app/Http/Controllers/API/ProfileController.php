@@ -45,7 +45,7 @@ class ProfileController extends Controller
 		$request->user()->update($data);
 
 		return response($request->has('avatar') ? [
-			'avatar' => $request->getSchemeAndHttpHost() . '/uploads/' . $data['avatar']
+			'avatar' => $request->getSchemeAndHttpHost() . '/uploads/' . ($data['avatar'] ?? 'default.png')
 		] : []);
 	}
 }
